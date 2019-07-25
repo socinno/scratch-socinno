@@ -4,21 +4,27 @@
 # Scratch3 Extensions of "IoT Smart Remocon" and "IoT Smart Car2WD".
 #
 
-echo "Start Installation of SOCINNO Scratch3 Extention!"
+echo "Start Installation..."
 
 # (1) copy extension-manager
-mv ../scratch-vm/src/extension-support/extension-manager.js ../scratch-vm/src/extension-support/extension-manager.js.org
-cp ./extension-manager.js ../scratch-vm/src/extension-support/extension-manager.js
+mv -n ../scratch-vm/src/extension-support/extension-manager.js ../scratch-vm/src/extension-support/extension-manager.js.org
+if [[ -e ../scratch-vm/src/extension-support/extension-manager.js ]]; then
+  rm -f ../scratch-vm/src/extension-support/extension-manager.js
+fi
+cp -af ./extension-manager.js ../scratch-vm/src/extension-support/extension-manager.js
 
 # (2) copy extensions
-cp ./scratch3_iot* ../scratch-vm/src/extensions/
+cp -af ./scratch3_iot* ../scratch-vm/src/extensions/
 
 # (3) copy extensions-index
-mv ../scratch-gui/src/lib/libraries/extensions/index.jsx ../scratch-gui/src/lib/libraries/extensions/index.jsx.org
-cp ./index.jsx ../scratch-gui/src/lib/libraries/extensions/
+mv -n ../scratch-gui/src/lib/libraries/extensions/index.jsx ../scratch-gui/src/lib/libraries/extensions/index.jsx.org
+if [[ -e ../scratch-gui/src/lib/libraries/extensions/index.jsx ]]; then
+  rm -f ../scratch-gui/src/lib/libraries/extensions/index.jsx
+fi
+cp -af ./index.jsx ../scratch-gui/src/lib/libraries/extensions/
 
 # (4)
-cp ./iot* ../scratch-gui/src/lib/libraries/extensions/
+cp -af ./iot* ../scratch-gui/src/lib/libraries/extensions/
 
-echo "Installation Success!"
+echo "Installation Successfully Completed!"
 
