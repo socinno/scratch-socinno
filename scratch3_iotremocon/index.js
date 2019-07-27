@@ -25,10 +25,11 @@ const blockIconURI = menuIconURI;
  * @type {int}
  */
 const serverTimeoutMs = 5000; // 5 seconds (chosen arbitrarily).
-const serverTimeoutMsRecv = 18000; // 18 seconds (chosen arbitrarily).
+const serverTimeoutMsLong = 18000; // 18 seconds (chosen arbitrarily).
 
 const LED_ARR = ['ON', 'OFF'];
 const IR_NO_ARR = ['1', '2', '3', '4', '5']; // String型（IR_NOの選択肢）
+const IFTTT_ARR = ['MAIL', 'CLOUD'];
 
 /**
  * Class for the iotremocon blocks.
@@ -136,6 +137,22 @@ class Scratch3IotRemoconBlocks {
                         }
                     }
                 },
+                {
+                    opcode: 'iftttWebhooksControl',
+                    text: formatMessage({
+                        id: 'iotremocon.iftttWebhooksControl',
+                        default: 'IFTTT WebHooks [IFTTT_JOB]',
+                        description: 'Triger IFTTT WebHooks'
+                    }),
+                    blockType: BlockType.COMMAND,
+                    arguments: {
+                        IFTTT_JOB: {
+                            type: ArgumentType.STRING,
+                            menu: 'ifttt_job',
+                            defaultValue: 'MAIL'
+                        }
+                    }
+                },
                 '---',
                 {
                     opcode: 'getViewerRemoconIp',
@@ -196,6 +213,10 @@ class Scratch3IotRemoconBlocks {
                 ir_nos: {
                     acceptReporters: true,
                     items: IR_NO_ARR
+                },
+                ifttt_job: {
+                    acceptReporters: true,
+                    items: IFTTT_ARR
                 }
             }
         };
@@ -229,22 +250,29 @@ class Scratch3IotRemoconBlocks {
     ledControl (args) {
         const urlBase = `http://${this._iotRemoconIp}/led?o=${args.LED_CONT}`;
         log.log(`IrSend:${urlBase}`);
-        this.controlIot(urlBase, serverTimeoutMs);
         this._iotRemoconStatus = 'LED Controling...';
+        this.controlIot(urlBase, serverTimeoutMs);
     }
 
     irRecvControl (args) {
         const urlBase = `http://${this._iotRemoconIp}/recv?n=${args.IR_NO}`;
         log.log(`IrRecv:${urlBase}`);
-        this.controlIot(urlBase, serverTimeoutMsRecv);
         this._iotRemoconStatus = 'Receiving...';
+        this.controlIot(urlBase, serverTimeoutMsLong);
     }
 
     irSendControl (args) {
         const urlBase = `http://${this._iotRemoconIp}/send?n=${args.IR_NO}`;
         log.log(`IrSend:${urlBase}`);
-        this.controlIot(urlBase, serverTimeoutMs);
         this._iotRemoconStatus = 'Sending...';
+        this.controlIot(urlBase, serverTimeoutMs);
+    }
+
+    iftttWebhooksControl (args) {
+        const urlBase = `http://${this._iotRemoconIp}/ifttt?j=${args.IFTTT_JOB}`;
+        log.log(`IFTTT Access:${urlBase}`);
+        this._iotRemoconStatus = 'IFTTT trigering...';
+        this.controlIot(urlBase, serverTimeoutMsLong);
     }
 
     controlIot (urlBase, serverTimeoutMsSet) {
@@ -279,7 +307,8 @@ class Scratch3IotRemoconBlocks {
             return '';
         }
         const urlBase = `http://${this._iotRemoconIp}/update`;
-        log.log(`Access IoT at ${urlBase}`);
+        log.log(`Update:${urlBase}`);
+        this._iotRemoconStatus = 'Sensor Updating...';
         const updatePromise = new Promise(resolve => {
             nets({
                 url: urlBase,
@@ -292,15 +321,16 @@ class Scratch3IotRemoconBlocks {
                     resolve('');
                     return '';
                 }
-                this._iotRemoconStatus = 'Update Completed';
                 const getSensor = JSON.parse(body);
                 const getTemp = Cast.toNumber(getSensor.t);
                 // log.log(`Update.temperature:${getSensor.t}`);
                 if (getTemp > -50) {
+                    this._iotRemoconStatus = 'Completed';
                     this._sensors.temperature = getTemp;
                     this._sensors.humidity = Cast.toNumber(getSensor.h);
                     this._sensors.illuminance = Cast.toNumber(getSensor.l);
                 } else {
+                    this._iotRemoconStatus = 'Update Failed';
                     this.resetSensor();
                 }
                 resolve(body);
