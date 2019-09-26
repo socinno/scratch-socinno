@@ -45,7 +45,9 @@ class Scratch3IotCar2wdBlocks {
          * The most recently received value for each sensor.
          */
         this._sensors = {
-            distance: -99
+            distance: -99,
+            rightir: '無し',
+            leftir: '無し'
         };
         this._iotCar2wdIp = '192.168.x.x';
         this._iotCar2wdStatus = '-';
@@ -59,7 +61,7 @@ class Scratch3IotCar2wdBlocks {
     getInfo () {
         return {
             id: 'iotcar2wd',
-            name: 'IoT Smart Car 2WD',
+            name: 'sLab-Car',
             blockIconURI: blockIconURI,
             menuIconURI: menuIconURI,
             blocks: [
@@ -226,6 +228,26 @@ class Scratch3IotCar2wdBlocks {
                     }),
                     blockType: BlockType.REPORTER,
                     arguments: {}
+                }, 
+                {
+                    opcode: 'getViewerRightIr',
+                    text: formatMessage({
+                        id: 'iotcar2wd.viewerRightIr',
+                        default: '右Irセンサー',
+                        description: 'Right Ir Sensor of the project viewer'
+                    }),
+                    blockType: BlockType.REPORTER,
+                    arguments: {}
+                }, 
+                {
+                    opcode: 'getViewerLeftIr',
+                    text: formatMessage({
+                        id: 'iotcar2wd.viewerLeftIr',
+                        default: '左Irセンサー',
+                        description: 'Left Ir Sensor of the project viewer'
+                    }),
+                    blockType: BlockType.REPORTER,
+                    arguments: {}
                 }/* ,
                 {
                     opcode: 'getViewerAdjustBalance',
@@ -274,6 +296,14 @@ class Scratch3IotCar2wdBlocks {
 
     getViewerDistance () {
         return this._sensors.distance;
+    }
+
+    getViewerRightIr () {
+        return this._sensors.rightir;
+    }
+
+    getViewerLeftIr () {
+        return this._sensors.leftir;
     }
 
     getViewerAdjustAngle () {
@@ -353,6 +383,16 @@ class Scratch3IotCar2wdBlocks {
                     const getDistance = Cast.toNumber(getSensor.d);
                     if (getDistance >= 0) {
                         this._sensors.distance = getDistance;
+                        if(getSensor.r == 'L'){
+                            this._sensors.rightir = '検出';
+                        } else {
+                            this._sensors.rightir = '無し';
+                        }
+                        if(getSensor.l == 'L'){
+                            this._sensors.leftir = '検出';
+                        } else {
+                            this._sensors.leftir = '無し';
+                        }
                         this._iotCar2wdStatus = 'Completed';
                     } else {
                         this.resetSensor();
@@ -373,7 +413,9 @@ class Scratch3IotCar2wdBlocks {
 
     resetSensor () {
         this._sensors = {
-            distance: -99
+            distance: -99,
+            rightir: '無し',
+            leftir: '無し'
         };
         return;
     }

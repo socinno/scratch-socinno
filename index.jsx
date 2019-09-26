@@ -55,14 +55,14 @@ import gdxforConnectionSmallIconURL from './gdxfor/gdxfor-small.svg';
 
 export default [
     { // SOCINNO
-        name: 'IoT Smart Car 2WD',
+        name: 'sLab-Car',
         extensionId: 'iotcar2wd',
         collaborator: 'SOCINNO',
         iconURL: iotcar2wdIconURL,
         insetIconURL: iotcar2wdInsetIconURL,
         description: (
             <FormattedMessage
-                defaultMessage="IoT Learning kit Car 2WD"
+                defaultMessage="IoT Learning kit sLab-Car"
                 description="Description for the 'IoT Car 2WD' extension"
                 id="gui.extension.iotcar2wd.description"
             />
@@ -71,14 +71,14 @@ export default [
         internetConnectionRequired: true
     },
     { // SOCINNO
-        name: 'IoT Smart Remocon',
+        name: 'sLab-Remocon',
         extensionId: 'iotremocon',
         collaborator: 'SOCINNO',
         iconURL: iotremoconIconURL,
         insetIconURL: iotremoconInsetIconURL,
         description: (
             <FormattedMessage
-                defaultMessage="IoT Learning kit Smart Remocon."
+                defaultMessage="IoT Learning kit sLab-Remocon."
                 description="Description for the 'IoT Smart Remocon' extension"
                 id="gui.extension.iotremocon.description"
             />
