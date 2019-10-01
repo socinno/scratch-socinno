@@ -317,51 +317,51 @@ class Scratch3IotCar2wdBlocks {
     ledControl (args) {
         const urlBase = `http://${this._iotCar2wdIp}/led?o=${args.LED_CONT}`;
         log.log(`IrSend:${urlBase}`);
-        this.controlIot(1, urlBase, serverTimeoutMs);
         this._iotRemoconStatus = 'LED Controling...';
+        this.controlIot(1, urlBase, serverTimeoutMs);
     }
 
     sensorAngleControl (args) {
         const urlBase = `http://${this._iotCar2wdIp}/s_angle?n=${args.SENSOR_ANGLE}`;
         log.log(`sensorControl:${urlBase}`);
-        this.controlIot(2, urlBase, serverTimeoutMs);
         this._iotCar2wdStatus = 'Receiving...';
+        this.controlIot(2, urlBase, serverTimeoutMs);
     }
 
     sensorDistanceUpdate () {
         const urlBase = `http://${this._iotCar2wdIp}/update_d`;
         log.log(`sensorControl:${urlBase}`);
-        this.controlIot(3, urlBase, serverTimeoutMs);
         this._iotCar2wdStatus = 'Receiving...';
+        this.controlIot(3, urlBase, serverTimeoutMs);
     }
 
     carGobackControl (args) {
         const urlBase = `http://${this._iotCar2wdIp}/cargo?a=${args.GO_BACK}`;
         log.log(`carControl:${urlBase}`);
-        this.controlIot(4, urlBase, serverTimeoutMs);
         this._iotCar2wdStatus = 'Sending...';
+        this.controlIot(4, urlBase, serverTimeoutMs);
     }
 
     carTurnControl (args) {
         const urlBase = `http://${this._iotCar2wdIp}/carturn?a=${args.TURN_DIR}&n=${args.TURN_TIME}`;
         log.log(`carControl:${urlBase}`);
-        this.controlIot(5, urlBase, serverTimeoutMs);
         this._iotCar2wdStatus = 'Sending...';
+        this.controlIot(5, urlBase, serverTimeoutMs);
     }
     
     adjustAngle (args) {
         const urlBase = `http://${this._iotCar2wdIp}/adjusta?n=${args.ADJUST_ANG}`;
         log.log(`carControl:${urlBase}`);
-        this.controlIot(6, urlBase, serverTimeoutMs);
         this._iotCar2wdStatus = 'Adjusting...';
+        this.controlIot(6, urlBase, serverTimeoutMs);
         this._iotCarAdjustAngle = Cast.toNumber(args.ADJUST_ANG);
     }
 
     /* adjustBalance (args) {
         const urlBase = `http://${this._iotCar2wdIp}/adjustb?n=${args.ADJUST_BLC}`;
         log.log(`carControl:${urlBase}`);
-        this.controlIot(7, urlBase, serverTimeoutMs);
         this._iotCar2wdStatus = 'Adjusting...';
+        this.controlIot(7, urlBase, serverTimeoutMs);
         this._iotCarAdjustBalance = Cast.toNumber(args.ADJUST_BLC);
     }*/
 
