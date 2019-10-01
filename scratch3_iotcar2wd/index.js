@@ -28,7 +28,7 @@ const serverTimeoutMs = 5000; // 5 seconds (chosen arbitrarily).
 
 const LED_ARR = ['ON', 'OFF'];
 const SENSOR_ANGLE_ARR = ['0', '45', '90', '135', '180']; // String型
-const GO_BACK__ARR = ['GO', 'STOP', 'BACK', 'BACKTURN'];
+const GO_BACK__ARR = ['GO', 'STOP', 'BACK'];
 const TURN_ARR = ['RIGHT', 'LEFT'];
 /**
  * Class for the iotcar2wd blocks.
